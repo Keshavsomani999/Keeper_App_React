@@ -1,24 +1,63 @@
-import React from 'react'
+import React,{ useState } from 'react'
 import Header from './Header'
 import Footer from './Footer'
 import Note from './Note'
 import notes from '../notes'
 import Login from './Login'
 import Form from './Form'
+import cars from './practice'
 
-var isUserRegistered = true
 
-const time = new Date(2019,11,1,18).getHours();
+const [honda,tesla] = cars
+
+const {speedStats:{topSpeed:hondaTopSpeed}} = honda
+const {speedStats:{topSpeed:teslaTopSpeed}} = tesla
+
+const {coloursByPopularity:[hondaTopColour]} = honda
+const {coloursByPopularity:[teslaTopColour]} = tesla
 
 export default function App() {
+
+  setInterval(inc,1000)
+
+  let getTime = new Date().toLocaleTimeString();
+
+  const [time,setCount] = useState(getTime);
+
+  function inc(){
+    let newTime = new Date().toLocaleTimeString();
+
+    setCount(newTime);
+  }
+
 
   return (
     <div>
       <Header />
 
-      {isUserRegistered ? <Login /> : <Form /> }
+    <h1>{time}</h1>
+    <button onClick={inc}>Get Time</button>
+    {/* <button onClick={dec}>-</button> */}
 
-      {/* {time > 12 ? <h1> why still working</h1> : null} */}
+    <table>
+    <tr>
+      <th>Brand</th>
+      <th>Top Speed</th>
+      <th>Top Colour</th>
+    </tr>
+    <tr>
+      <td>{tesla.model}</td>
+      <td>{teslaTopSpeed}</td>
+      <td>{teslaTopColour}</td>
+    </tr>
+    <tr>
+      <td>{honda.model}</td>
+      <td>{hondaTopSpeed}</td>
+      <td>{hondaTopColour}</td>
+    </tr>
+  </table>
+
+     
 
       {/* <div className='allCard'>
 
