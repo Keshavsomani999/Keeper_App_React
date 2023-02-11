@@ -1,53 +1,37 @@
-import React,{ useState ,useEffect } from 'react'
-import Header from './Header'
-import Footer from './Footer'
-import Note from './Note'
-import notes from '../notes'
-import Login from './Login'
-import Form from './Form'
-import cars from './practice'
+import React, { useState } from "react";
+import Header from "./Header";
+import Footer from "./Footer";
+import Note from "./Note";
+import CreateArea from "./CreateArea";
 
+function App() {
+  const [notes,setNotes] = useState([]);
 
+  function addNote(newnote){
+    setNotes(prevNotes =>{
+      return [...prevNotes,newnote]
+    })
+  }
 
-export default function App() {
-
-
-const [headingText, setHeadingText] = useState("Hello");
-
-
-const [useStyle,setStyle] = useState("black");
-
-
-function handleClick(){
-
-  setHeadingText("Submited")
-}
-
-
-
-function handleMouseOver(){
-  setStyle("red")
-  
-}
-function handleMouseOut(){
-  document.body.style.backgroundColor="red"
-  setStyle("black")
-
-}
+  function deleteNote(id){
+    setNotes((prevNotes) => {
+      return prevNotes.filter((note,index)=>{
+        return index !== id;
+      })
+    })
+  }
 
   return (
     <div>
       <Header />
-
-
-    <div className="container">
-      <h1>{headingText}</h1>
-      <input type="text" placeholder="What's your name?" />
-      <button style={{backgroundColor:useStyle}}  onMouseOut={handleMouseOut} onMouseOver={handleMouseOver} onClick={handleClick}>Submit</button>
-      {/* <button style={{backgroundColor: isMouseOver ? "black" : "white"}} onClick={handleClick}>Submit</button> */}
-    </div>
-
+      <CreateArea onAdd={addNote} />
+      {notes.map((note,index) =>{
+         return <Note key={index} id={index} onDelete={deleteNote} title={note.title} content={note.content} />
+      })}
+    
       <Footer />
     </div>
-  )
+  );
 }
+
+export default App;
